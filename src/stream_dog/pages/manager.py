@@ -25,7 +25,7 @@ def fetch_image(url):
     #response = requests.get(url)
     #if response.status_code == 200:
     #image = Image.open(io.BytesIO(response.content))
-    image = Image.open(io.BytesIO(url))
+    image = Image.open(url)
     return image
     #else:
         #st.error("Failed to fetch image from URL")
@@ -57,7 +57,7 @@ for row in results:
 
         # 라벨 입력 필드 및 제출 버튼 생성
         label = st.text_input(f"Enter label for image {num}", key=num)  # 각 이미지에 대해 다른 키 값 부여
-
+        conn=get_conn()
         if st.button(f"Submit Label for Image {num}", key=f"submit_{num}"):
             if label:  # 라벨이 입력된 경우에만 처리
                 with conn.cursor() as cursor:
