@@ -3,7 +3,6 @@ FROM python:3.9-slim
 WORKDIR /code
 
 COPY src/stream_dog /code/
-COPY pic /code/
 
 RUN apt-get update && apt-get install -y \
     build-essential \
