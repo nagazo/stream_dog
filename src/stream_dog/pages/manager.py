@@ -21,14 +21,15 @@ def get_conn():
 # 이미지 가져오기 함수
 def fetch_image(url):
     #url='http://13.125.248.110:8044/uploadfile/'
-    url='http://13.125.248.110:8044/uploadfile/'
-    response = requests.get(url)
-    if response.status_code == 200:
-        image = Image.open(io.BytesIO(response.content))
-        return image
-    else:
-        st.error("Failed to fetch image from URL")
-        return None
+    #url='http://13.125.248.110:8044/uploadfile/'
+    #response = requests.get(url)
+    #if response.status_code == 200:
+    #image = Image.open(io.BytesIO(response.content))
+    image = Image.open(io.BytesIO(url))
+    return image
+    #else:
+        #st.error("Failed to fetch image from URL")
+        #return None
 
 # 메인 애플리케이션
 st.title("Image Processing Manager Page")
