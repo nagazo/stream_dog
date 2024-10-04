@@ -20,6 +20,7 @@ def get_conn():
 
 # 이미지 가져오기 함수
 def fetch_image(url):
+    #url='http://13.125.248.110:8044/uploadfile/'
     url='http://13.125.248.110:8044/uploadfile/'
     response = requests.get(url)
     if response.status_code == 200:
@@ -40,9 +41,28 @@ with conn:
         cursor.execute(sql)
         results = cursor.fetchall()
 
-labels = st.text_input("정답을 입력하세요")
+# 각 이미지에 대해 라벨링 처리
+for row in results:
+    num = row['num']
+    file_path = row['file_path']
+    print(file_path)
 
-def labeling(num):
-    from stream_dog.db import dml
-    sql="update dog_class set label=%s where num=%s"
-    dml(sql, labels, num)
+    # 이미지를 가져와서 Streamlit에 표시
+    st.write(f"Image Number: {num}")
+    image = fetch_image(file_path)
+
+    if image:
+        st.image(image, caption=f"Image {num}", use_column_width=True)
+
+        # 라벨 입력 필드 및 제출 버튼 생성
+        label = st.text_input(f"Enter label for image {num}", key=num)  # 각 이미지에 대해 다른 키 값 부여
+
+        if st.button(f"Submit Label for Image {num}", key=f"submit_{num}"):
+            if label:  # 라벨이 입력된 경우에만 처리
+                with conn.cursor() as cursor:
+                    update_sql = "UPDATE dog_class SET label = %s WHERE num = %s"
+                    cursor.execute(update_sql, (label, num))
+                    conn.commit()
+                    st.success(f"Label for image {num} updated successfully.")
+            else:
+                st.warning("Please enter a label before submitting.")
