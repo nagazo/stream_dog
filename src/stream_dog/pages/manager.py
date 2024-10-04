@@ -8,7 +8,7 @@ import pymysql.cursors
 # DB 연결 함수
 def get_conn():
     conn= pymysql.connect(
-        host='13.125.248.110',  # 데이터베이스 서버 주소
+        host='172.31.41.140',  # 데이터베이스 서버 주소
         user='nagazo',          # 데이터베이스 사용자 이름
         password='4444',        # 데이터베이스 비밀번호
         database='nagazodb',
